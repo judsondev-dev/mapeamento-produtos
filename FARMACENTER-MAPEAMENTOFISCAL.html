@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farma Center — Mapeamento Fiscal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:#c0182a;--red-dark:#8b0f1c;--red-light:#e8192e;
+  --red-pale:#fff0f1;--red-mid:#ffd6d9;--gold:#c9a84c;
+  --dark:#111116;--dark2:#1c1c22;--dark3:#26262e;
+  --mid:#6b6b7a;--light:#f5f5f8;--white:#ffffff;--radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--dark);min-height:100vh;}
+
+header{background:var(--dark);position:relative;overflow:hidden;}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(192,24,42,0.18) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 10% 80%,rgba(192,24,42,0.10) 0%,transparent 60%);}
+.hstripe{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red-dark),var(--red-light),var(--gold),var(--red-light),var(--red-dark));}
+.hinner{position:relative;max-width:1200px;margin:0 auto;padding:32px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:16px;}
+.brand-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--red),var(--red-dark));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 20px rgba(192,24,42,0.4);flex-shrink:0;}
+.brand-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:900;color:#fff;margin-bottom:3px;}
+.brand-sub{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;}
+.hright{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.cnpj-badge{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;}
+.status-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:30px;padding:5px 14px;font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;transition:background 0.2s;}
+.status-pill:hover{background:rgba(255,255,255,0.1);}
+.sdot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;}
+.sdot.loading{background:#facc15;box-shadow:0 0 6px #facc15;animation:pulse 1s infinite;}
+.sdot.error{background:#f87171;box-shadow:0 0 6px #f87171;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.stats-row{max-width:1200px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;transform:translateY(-28px);}
+.scard{background:var(--white);border-radius:var(--radius);padding:18px 20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.05);display:flex;align-items:center;gap:14px;animation:fadeUp 0.4s ease both;}
+.scard:nth-child(1){animation-delay:0.05s}.scard:nth-child(2){animation-delay:0.1s}.scard:nth-child(3){animation-delay:0.15s}.scard:nth-child(4){animation-delay:0.2s}
+.sico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.sico.r{background:var(--red-pale)}.sico.g{background:#fff8e6}.sico.b{background:#eef2ff}.sico.t{background:#f0fdf4}
+.sval{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--dark);line-height:1;margin-bottom:2px;}
+.slbl{font-size:11px;color:var(--mid);}
+
+.container{max-width:1200px;margin:0 auto;padding:0 28px 48px;}
+
+.search-wrap{background:var(--white);border-radius:var(--radius);box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.05);padding:16px 18px;margin-bottom:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;animation:fadeUp 0.4s 0.2s ease both;}
+.sinput{position:relative;flex:1;min-width:220px;}
+.sinput .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--mid);pointer-events:none;}
+.sinput input{width:100%;padding:10px 13px 10px 40px;border:1.5px solid #e4e4ec;border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dark);background:var(--light);outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+.sinput input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(192,24,42,0.08);background:var(--white);}
+select{padding:10px 13px;border:1.5px solid #e4e4ec;border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--light);color:var(--dark);cursor:pointer;outline:none;transition:border-color 0.2s;}
+select:focus{border-color:var(--red);}
+.btn-exp{background:linear-gradient(135deg,var(--red),var(--red-dark));color:white;border:none;padding:10px 18px;border-radius:9px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 3px 12px rgba(192,24,42,0.3);white-space:nowrap;transition:opacity 0.2s,transform 0.1s;}
+.btn-exp:hover{opacity:0.9;transform:translateY(-1px);}
+.rcount{font-size:13px;color:var(--mid);white-space:nowrap;}
+
+.twrap{background:var(--white);border-radius:var(--radius);box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.05);overflow:hidden;animation:fadeUp 0.4s 0.25s ease both;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:var(--dark2);color:rgba(255,255,255,0.85);padding:13px 16px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;cursor:pointer;user-select:none;white-space:nowrap;transition:background 0.15s;}
+thead th:hover{background:var(--dark3);}
+tbody tr{border-bottom:1px solid #f0f0f5;transition:background 0.1s;}
+tbody tr:hover{background:var(--red-pale);}
+tbody tr:last-child{border:none;}
+td{padding:12px 16px;vertical-align:middle;}
+
+.cn{font-weight:500;max-width:260px;}
+.cn span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dark);}
+.cc{font-family:'Courier New',monospace;font-size:12px;color:var(--mid);}
+
+.ncm-tag{display:inline-block;font-family:'Courier New',monospace;font-size:12px;background:var(--light);border:1px solid #e0e0ea;border-radius:5px;padding:2px 7px;letter-spacing:0.5px;}
+.cpbtn{background:none;border:1px solid #e0e0ea;border-radius:5px;padding:2px 7px;font-size:10px;cursor:pointer;color:var(--mid);margin-left:5px;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.cpbtn:hover{background:var(--red-pale);color:var(--red);border-color:var(--red-mid);}
+.cpbtn.ok{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0;}
+
+/* CFOP badges */
+.badge{display:inline-block;padding:3px 9px;border-radius:5px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+.c5102{background:#e8f5e9;color:#2e7d32}
+.c5405{background:#f3f4f6;color:#374151}
+.c5403{background:#f3f4f6;color:#374151}
+.c6403{background:#f3f4f6;color:#374151}
+.c6404{background:#f3f4f6;color:#374151}
+.c6102{background:#e8f5e9;color:#2e7d32}
+.c5910{background:#fef3c7;color:#92400e}
+.c5927{background:#fef3c7;color:#92400e}
+.c5656{background:#ede9fe;color:#5b21b6}
+.c5949{background:#f3f4f6;color:#374151}
+.coth{background:#f5f5f5;color:#555}
+
+/* ICMS incidência */
+.icms-cell{display:flex;flex-direction:column;gap:4px;}
+.tag-icms{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px;white-space:nowrap;}
+.tag-icms .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.icms-credito{background:#dcfce7;color:#166534;}
+.icms-credito .dot{background:#16a34a;}
+.icms-debito{background:#fee2e2;color:#991b1b;}
+.icms-debito .dot{background:#dc2626;}
+.icms-nenhum{background:#f3f4f6;color:#6b7280;}
+.icms-nenhum .dot{background:#9ca3af;}
+.icms-verificar{background:#fef3c7;color:#92400e;}
+.icms-verificar .dot{background:#d97706;}
+
+/* CFOP descrição */
+.cfop-desc{font-size:11px;color:var(--mid);margin-top:3px;}
+
+mark{background:#fef08a;padding:0 2px;border-radius:3px;color:inherit;}
+
+#loading{text-align:center;padding:80px 20px;background:white;border-radius:var(--radius);box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.spinner{width:34px;height:34px;border:3px solid #eee;border-top-color:var(--red);border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 14px;}
+#loading p{color:var(--mid);font-size:14px;}
+.empty{text-align:center;padding:60px 20px;}
+.empty p{color:var(--mid);font-size:14px;margin-top:10px;}
+
+.pag{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:18px;flex-wrap:wrap;}
+.pag button{padding:7px 13px;border:1.5px solid #e4e4ec;border-radius:8px;background:white;color:var(--dark);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;}
+.pag button:hover{border-color:var(--red);color:var(--red);}
+.pag button.act{background:var(--red);color:white;border-color:var(--red);box-shadow:0 2px 8px rgba(192,24,42,0.3);}
+.pag button:disabled{opacity:0.3;cursor:not-allowed;}
+
+footer{text-align:center;padding:22px;font-size:12px;color:#bbb;border-top:1px solid #eee;background:white;margin-top:8px;}
+footer strong{color:var(--red);font-weight:600;}
+
+@media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr;}.hm{display:none;}}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr;padding:0 14px;}.hinner,.container{padding-left:14px;padding-right:14px;}.cn{max-width:140px;}.hright{display:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbg"></div>
+  <div class="hstripe"></div>
+  <div class="hinner">
+    <div class="brand">
+      <div class="brand-icon">💊</div>
+      <div>
+        <div class="brand-name">Farma Center</div>
+        <div class="brand-sub">Mapeamento Fiscal de Produtos</div>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="cnpj-badge">CNPJ 10.862.380/0001-27</div>
+      <div class="status-pill" onclick="load()" title="Clique para recarregar">
+        <span class="sdot loading" id="sdot"></span>
+        <span id="stxt">Carregando...</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="stats-row">
+  <div class="scard"><div class="sico r">📦</div><div><div class="sval" id="s1">—</div><div class="slbl">Produtos cadastrados</div></div></div>
+  <div class="scard"><div class="sico g">🏷️</div><div><div class="sval" id="s2">—</div><div class="slbl">NCMs distintos</div></div></div>
+  <div class="scard"><div class="sico b">📋</div><div><div class="sval" id="s3">—</div><div class="slbl">CFOPs utilizados</div></div></div>
+  <div class="scard"><div class="sico t">✅</div><div><div class="sval" id="s4">—</div><div class="slbl">Geram crédito ICMS</div></div></div>
+</div>
+
+<div class="container">
+  <div id="loading"><div class="spinner"></div><p>Buscando produtos...</p></div>
+
+  <div id="app" style="display:none">
+    <div class="search-wrap">
+      <div class="sinput">
+        <span class="ico">🔍</span>
+        <input type="text" id="q" placeholder="Pesquisar por nome, código ou NCM..." autocomplete="off">
+      </div>
+      <select id="fc">
+        <option value="">Todos os CFOPs</option>
+        <option value="5102">5102 – Compra p/ comercialização</option>
+        <option value="5403">5403 – ST (sem crédito / débito)</option>
+        <option value="5405">5405 – ST já recolhida</option>
+        <option value="5656">5656 – Combustível</option>
+        <option value="5910">5910 – Bonificação</option>
+        <option value="5927">5927 – Retorno bonificação</option>
+        <option value="5949">5949 – Outras saídas</option>
+        <option value="6102">6102 – Compra interestad.</option>
+        <option value="6403">6403 – ST interestad.</option>
+        <option value="6404">6404 – ST interestad.</option>
+      </select>
+      <select id="fi">
+        <option value="">Toda incidência ICMS</option>
+        <option value="credito">Gera crédito</option>
+        <option value="nenhum">Sem incidência</option>
+        <option value="verificar">Verificar caso a caso</option>
+      </select>
+      <span class="rcount" id="rc">—</span>
+      <button class="btn-exp" onclick="exportCSV()">⬇ Exportar CSV</button>
+    </div>
+
+    <div class="twrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="srt('nome')">Produto ↕</th>
+            <th onclick="srt('codigo')" class="hm">Código ↕</th>
+            <th onclick="srt('ncm')">NCM ↕</th>
+            <th onclick="srt('cfop')">CFOP ↕</th>
+            <th>Incidência ICMS</th>
+          </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+      </table>
+      <div id="empty" class="empty" style="display:none"><div style="font-size:40px">🔍</div><p>Nenhum produto encontrado.</p></div>
+    </div>
+    <div class="pag" id="pag"></div>
+  </div>
+</div>
+
+<footer><strong>Farma Center</strong> · CNPJ 10.862.380/0001-27 · Sistema de Mapeamento Fiscal · Uso interno restrito</footer>
+
+<script>
+var URL_JSON = "https://raw.githubusercontent.com/judsondev-dev/mapeamento-produtos/refs/heads/main/produtos.json";
+
+var CFOP_INFO = {
+  "5102": { desc:"Compra p/ comercialização",         credito:true,  debito:true,  tipo:"credito"   },
+  "6102": { desc:"Compra p/ comercialização (interestad.)", credito:true, debito:true, tipo:"credito" },
+  "5403": { desc:"ST — sem crédito nem débito",        credito:false, debito:false, tipo:"nenhum"    },
+  "6403": { desc:"ST interestad. — sem incidência",    credito:false, debito:false, tipo:"nenhum"    },
+  "5405": { desc:"ST já recolhida anteriormente",      credito:false, debito:false, tipo:"nenhum"    },
+  "6404": { desc:"ST interestad. já recolhida",        credito:false, debito:false, tipo:"nenhum"    },
+  "5910": { desc:"Remessa em bonificação",             credito:false, debito:false, tipo:"nenhum"    },
+  "5927": { desc:"Retorno de bonificação",             credito:false, debito:false, tipo:"nenhum"    },
+  "5656": { desc:"Combustível / lubrificantes",        credito:false, debito:false, tipo:"verificar" },
+  "5949": { desc:"Outras saídas de mercadoria",        credito:false, debito:false, tipo:"verificar" }
+};
+
+var CFOP_C = {
+  "5102":"c5102","6102":"c6102","5403":"c5403","6403":"c6403",
+  "5405":"c5405","6404":"c6404","5910":"c5910","5927":"c5927",
+  "5656":"c5656","5949":"c5949"
+};
+
+var DATA=[], filt=[], sk="nome", sd=1, pg=1, PP=30;
+
+function icmsHtml(cfop) {
+  var info = CFOP_INFO[cfop];
+  if (!info) return '<div class="icms-cell"><span class="tag-icms icms-verificar"><span class="dot"></span>Verificar</span></div>';
+  var html = '<div class="icms-cell">';
+  if (info.credito) {
+    html += '<span class="tag-icms icms-credito"><span class="dot"></span>Gera crédito na compra</span>';
+  }
+  if (info.debito) {
+    html += '<span class="tag-icms icms-debito"><span class="dot"></span>Gera débito na venda</span>';
+  }
+  if (!info.credito && !info.debito && info.tipo !== "verificar") {
+    html += '<span class="tag-icms icms-nenhum"><span class="dot"></span>Sem incidência de ICMS</span>';
+  }
+  if (info.tipo === "verificar") {
+    html += '<span class="tag-icms icms-verificar"><span class="dot"></span>Verificar caso a caso</span>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function load() {
+  setst("loading","Carregando...");
+  fetch(URL_JSON + "?t=" + Date.now())
+    .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+    .then(function(d){
+      DATA = d;
+      var ncms={}, cfops={}, creditos=0;
+      for(var i=0;i<d.length;i++){
+        if(d[i].ncm) ncms[d[i].ncm]=1;
+        if(d[i].cfop) cfops[d[i].cfop]=1;
+        var info = CFOP_INFO[d[i].cfop];
+        if(info && info.credito) creditos++;
+      }
+      document.getElementById("s1").textContent = d.length;
+      document.getElementById("s2").textContent = Object.keys(ncms).length;
+      document.getElementById("s3").textContent = Object.keys(cfops).length;
+      document.getElementById("s4").textContent = creditos;
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("app").style.display = "";
+      var now = new Date().toLocaleString("pt-BR");
+      setst("ok","Atualizado às "+now);
+      filter();
+    })
+    .catch(function(e){
+      setst("error","Erro ao carregar");
+      document.getElementById("loading").innerHTML = '<p style="color:#c0182a;padding:40px 0">❌ Não foi possível carregar os dados.<br><small style="color:#999">'+e.message+'</small></p>';
+    });
+}
+
+function setst(t,m){
+  var d=document.getElementById("sdot");
+  d.className="sdot"+(t==="loading"?" loading":t==="error"?" error":"");
+  document.getElementById("stxt").textContent=m;
+}
+
+function esc(s){
+  if(!s) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function hl(text){
+  var q=document.getElementById("q").value.trim();
+  if(!q) return text;
+  try{
+    var safe=q.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&");
+    var re=new RegExp("("+safe+")","gi");
+    return text.replace(re,"<mark>$1</mark>");
+  }catch(e){return text;}
+}
+
+function filter(){
+  var q=document.getElementById("q").value.trim().toLowerCase();
+  var cf=document.getElementById("fc").value;
+  var fi=document.getElementById("fi").value;
+  filt=DATA.filter(function(p){
+    var mq=!q||[p.nome,p.codigo,p.ncm,p.cfop].some(function(v){return v&&String(v).toLowerCase().indexOf(q)>=0;});
+    var mc=!cf||p.cfop===cf;
+    var mi=true;
+    if(fi){
+      var info=CFOP_INFO[p.cfop];
+      var tipo=info?info.tipo:"verificar";
+      mi=(tipo===fi);
+    }
+    return mq&&mc&&mi;
+  });
+  filt.sort(function(a,b){
+    var av=String(a[sk]||"").toLowerCase();
+    var bv=String(b[sk]||"").toLowerCase();
+    return av<bv?-sd:av>bv?sd:0;
+  });
+  pg=1;
+  render();
+}
+
+function render(){
+  var start=(pg-1)*PP;
+  var slice=filt.slice(start,start+PP);
+  var empty=document.getElementById("empty");
+  var tbl=document.querySelector(".twrap table");
+  var tb=document.getElementById("tb");
+  empty.style.display=filt.length===0?"block":"none";
+  tbl.style.display=filt.length===0?"none":"";
+  document.getElementById("rc").innerHTML="<strong>"+filt.length+"</strong> produto"+(filt.length!==1?"s":"");
+  var rows="";
+  for(var i=0;i<slice.length;i++){
+    var p=slice[i];
+    var cc=CFOP_C[p.cfop]||"coth";
+    var info=CFOP_INFO[p.cfop];
+    var desc=info?info.desc:"";
+    rows+="<tr>";
+    rows+="<td class='cn'><span title='"+esc(p.nome)+"'>"+hl(esc(p.nome))+"</span></td>";
+    rows+="<td class='cc hm'>"+hl(esc(p.codigo))+"</td>";
+    rows+="<td><span class='ncm-tag'>"+hl(esc(p.ncm))+"</span><button class='cpbtn' onclick='cp(\""+esc(p.ncm)+"\",this)'>copiar</button></td>";
+    rows+="<td><span class='badge "+cc+"'>"+esc(p.cfop)+"</span><div class='cfop-desc'>"+esc(desc)+"</div></td>";
+    rows+="<td>"+icmsHtml(p.cfop)+"</td>";
+    rows+="</tr>";
+  }
+  tb.innerHTML=rows;
+  renderPag();
+}
+
+function srt(key){
+  if(sk===key)sd*=-1;else{sk=key;sd=1;}
+  filter();
+}
+
+function renderPag(){
+  var total=Math.ceil(filt.length/PP);
+  var pag=document.getElementById("pag");
+  if(total<=1){pag.innerHTML="";return;}
+  var h="<button onclick='gp("+(pg-1)+")' "+(pg===1?"disabled":"")+">&#8249;</button>";
+  for(var i=1;i<=total;i++){
+    if(total>10&&Math.abs(i-pg)>2&&i!==1&&i!==total){
+      if(i===2||i===total-1)h+="<button disabled>…</button>";
+      continue;
+    }
+    h+="<button class='"+(i===pg?"act":"")+"' onclick='gp("+i+")'>"+i+"</button>";
+  }
+  h+="<button onclick='gp("+(pg+1)+")' "+(pg===total?"disabled":"")+">&#8250;</button>";
+  pag.innerHTML=h;
+}
+
+function gp(p){
+  var total=Math.ceil(filt.length/PP);
+  if(p<1||p>total)return;
+  pg=p;render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function cp(text,btn){
+  navigator.clipboard.writeText(text).then(function(){
+    btn.textContent="✓ copiado";btn.classList.add("ok");
+    setTimeout(function(){btn.textContent="copiar";btn.classList.remove("ok");},1800);
+  });
+}
+
+function exportCSV(){
+  var header=["Nome","Código","NCM","CFOP","Descrição CFOP","Crédito ICMS","Débito ICMS"];
+  var rows=[header.join(",")];
+  for(var i=0;i<filt.length;i++){
+    var p=filt[i];
+    var info=CFOP_INFO[p.cfop]||{desc:"",credito:false,debito:false};
+    rows.push([
+      '"'+(p.nome||"").replace(/"/g,'""')+'"',
+      '"'+(p.codigo||"")+'"',
+      '"'+(p.ncm||"")+'"',
+      '"'+(p.cfop||"")+'"',
+      '"'+(info.desc||"")+'"',
+      '"'+(info.credito?"Sim":"Não")+'"',
+      '"'+(info.debito?"Sim":"Não")+'"'
+    ].join(","));
+  }
+  var blob=new Blob(["\uFEFF"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="farma_center_mapeamento.csv";
+  a.click();
+}
+
+document.getElementById("q").addEventListener("input",filter);
+document.getElementById("fc").addEventListener("change",filter);
+document.getElementById("fi").addEventListener("change",filter);
+load();
+</script>
+</body>
+</html>
