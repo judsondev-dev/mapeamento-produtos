@@ -198,6 +198,10 @@
     $("q9").textContent = brl(R.totalCreditos);
     $("q10l").textContent = R.saldoCredor > 0 ? "Saldo credor a transportar" : "ICMS a recolher";
     $("q10").textContent = brl(R.saldoCredor > 0 ? R.saldoCredor : R.aRecolher);
+    var credor = R.saldoCredor > 0;
+    $("kHero").classList.toggle("credor", credor);
+    $("qFin").classList.toggle("credor", credor);
+    $("kResD").textContent = credor ? "Crédito a transportar para o próximo mês" : "Prévia gerencial de " + nomeMes(comp);
 
     var pe = R.alertas.perdas;
     $("hEst").innerHTML = pe.valorTrib > 0 ? "Perdas (5927) de itens tributados: " + brl(pe.valorTrib) + ". Estorne o ICMS creditado na compra deles (≈ " + brl(pe.valorTrib * Apuracao.ALIQ_MA) + " se foi a 23%). <a data-usa='estornos' data-v='" + (pe.valorTrib * Apuracao.ALIQ_MA).toFixed(2) + "'>usar</a>" : "";
