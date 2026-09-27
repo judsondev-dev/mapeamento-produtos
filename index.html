@@ -120,8 +120,70 @@ mark{background:#fef08a;padding:0 2px;border-radius:3px;color:inherit;}
 footer{text-align:center;padding:22px;font-size:12px;color:#bbb;border-top:1px solid #eee;background:white;margin-top:8px;}
 footer strong{color:var(--red);font-weight:600;}
 
-@media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr;}.hm{display:none;}}
-@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr;padding:0 14px;}.hinner,.container{padding-left:14px;padding-right:14px;}.cn{max-width:140px;}.hright{display:none;}}
+/* Abas */
+.tabbar{position:relative;max-width:1200px;margin:0 auto;padding:0 28px 46px;display:flex;gap:6px;}
+.tab{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:8px 16px;border-radius:30px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;}
+.tab:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.tab.on{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 3px 12px rgba(192,24,42,0.4);}
+
+/* Apuração assistida */
+.apx{max-width:1200px;margin:0 auto;padding:0 28px 48px;transform:translateY(-28px);}
+.card{background:var(--white);border-radius:var(--radius);box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.05);padding:20px 22px;margin-bottom:18px;}
+.card h3{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:12px;}
+.card .sub{font-size:12px;color:var(--mid);margin-bottom:14px;}
+.imp{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start;}
+.fld label{display:block;font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:600;}
+.fld input[type=month]{width:100%;padding:10px 12px;border:1.5px solid #e4e4ec;border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--light);}
+.drop{border:2px dashed #e0c4c7;border-radius:12px;padding:22px;text-align:center;background:var(--red-pale);cursor:pointer;transition:all 0.15s;}
+.drop:hover,.drop.over{border-color:var(--red);background:#ffe6e8;}
+.drop strong{color:var(--red);}
+.drop p{font-size:12px;color:var(--mid);margin-top:4px;}
+.prog{height:6px;background:#eee;border-radius:3px;overflow:hidden;margin-top:12px;display:none;}
+.prog div{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red-light));transition:width 0.2s;}
+.progtxt{font-size:12px;color:var(--mid);margin-top:6px;min-height:16px;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.chip{font-size:12px;background:var(--light);border:1px solid #e4e4ec;border-radius:20px;padding:4px 11px;color:var(--dark);}
+.chip b{font-weight:600;}
+.priv{font-size:11px;color:var(--mid);margin-top:12px;display:flex;gap:6px;align-items:flex-start;}
+.btn-sec{background:white;color:var(--dark);border:1.5px solid #e4e4ec;padding:8px 14px;border-radius:9px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.15s;}
+.btn-sec:hover{border-color:var(--red);color:var(--red);}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.kpi{background:var(--white);border-radius:var(--radius);padding:16px 18px;box-shadow:0 2px 16px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.05);}
+.kpi .v{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;}
+.kpi .l{font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:0.8px;font-weight:600;}
+.kpi.res{background:var(--dark);color:#fff;}
+.kpi.res .l{color:rgba(255,255,255,0.5);}
+.grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start;}
+.quadro{width:100%;border-collapse:collapse;font-size:13px;}
+.quadro td{padding:9px 6px;border-bottom:1px solid #f0f0f5;}
+.quadro td.n{width:36px;color:var(--mid);font-family:'Courier New',monospace;font-size:11px;}
+.quadro td.val{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.quadro tr.tot td{font-weight:700;background:var(--light);}
+.quadro tr.fin td{font-weight:700;font-size:15px;border-bottom:none;}
+.quadro input{width:120px;text-align:right;padding:6px 8px;border:1.5px solid #e4e4ec;border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;font-variant-numeric:tabular-nums;}
+.quadro input:focus{outline:none;border-color:var(--red);}
+.hint{display:block;font-size:11px;color:var(--mid);margin-top:2px;}
+.hint a{color:var(--red);cursor:pointer;text-decoration:underline;}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:14px;font-size:12px;color:var(--dark);}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;}
+.mini{width:100%;border-collapse:collapse;font-size:12px;}
+.mini th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:var(--mid);padding:6px;border-bottom:1.5px solid #e4e4ec;font-weight:600;}
+.mini td{padding:6px;border-bottom:1px solid #f3f3f7;}
+.mini td.val,.mini th.val{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.mini tr.z td{color:#aaa;}
+details.al{border:1px solid #eee;border-radius:10px;margin-bottom:10px;overflow:hidden;}
+details.al summary{padding:12px 14px;cursor:pointer;font-size:13px;font-weight:600;display:flex;gap:10px;align-items:center;list-style:none;}
+details.al summary::-webkit-details-marker{display:none;}
+details.al summary .cnt{margin-left:auto;font-size:12px;font-weight:500;color:var(--mid);}
+details.al .body{padding:0 14px 14px;font-size:12px;color:var(--dark);max-height:360px;overflow:auto;}
+details.al .body p{color:var(--mid);margin-bottom:8px;}
+.lv{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.lv.a{background:#d97706;}.lv.r{background:#dc2626;}.lv.i{background:#6b7280;}
+.salvo{font-size:12px;color:#16a34a;margin-left:10px;}
+.vazio{text-align:center;padding:40px 20px;color:var(--mid);font-size:14px;}
+
+@media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr;}.hm{display:none;}.kpis{grid-template-columns:1fr 1fr;}.grid2,.imp{grid-template-columns:1fr;}}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr;padding:0 14px;}.hinner,.container,.apx,.tabbar{padding-left:14px;padding-right:14px;}.cn{max-width:140px;}.hright{display:none;}.quadro input{width:96px;}}
 </style>
 </head>
 <body>
@@ -145,8 +207,13 @@ footer strong{color:var(--red);font-weight:600;}
       </div>
     </div>
   </div>
+  <nav class="tabbar">
+    <button class="tab on" data-tab="map" onclick="aba('map')">📦 Mapeamento de produtos</button>
+    <button class="tab" data-tab="apur" onclick="aba('apur')">🧾 Apuração assistida</button>
+  </nav>
 </header>
 
+<div id="tab-map">
 <div class="stats-row">
   <div class="scard"><div class="sico r">📦</div><div><div class="sval" id="s1">—</div><div class="slbl">Produtos cadastrados</div></div></div>
   <div class="scard"><div class="sico g">🏷️</div><div><div class="sval" id="s2">—</div><div class="slbl">NCMs distintos</div></div></div>
@@ -165,16 +232,17 @@ footer strong{color:var(--red);font-weight:600;}
       </div>
       <select id="fc">
         <option value="">Todos os CFOPs</option>
-        <option value="5102">5102 – Compra p/ comercialização</option>
-        <option value="5403">5403 – ST (sem crédito / débito)</option>
-        <option value="5405">5405 – ST já recolhida</option>
+        <option value="5102">5102 – Venda tributada</option>
+        <option value="5405">5405 – Venda c/ ST já retida</option>
+        <option value="5403">5403 – Venda c/ ST (substituto)</option>
+        <option value="5202">5202 – Devolução de compra</option>
         <option value="5656">5656 – Combustível</option>
         <option value="5910">5910 – Bonificação</option>
-        <option value="5927">5927 – Retorno bonificação</option>
+        <option value="5927">5927 – Perda / deterioração</option>
         <option value="5949">5949 – Outras saídas</option>
-        <option value="6102">6102 – Compra interestad.</option>
-        <option value="6403">6403 – ST interestad.</option>
-        <option value="6404">6404 – ST interestad.</option>
+        <option value="6102">6102 – Venda interestad.</option>
+        <option value="6403">6403 – ST interestad. (substituto)</option>
+        <option value="6404">6404 – ST interestad. já retida</option>
       </select>
       <select id="fi">
         <option value="">Toda incidência ICMS</option>
@@ -204,6 +272,90 @@ footer strong{color:var(--red);font-weight:600;}
     <div class="pag" id="pag"></div>
   </div>
 </div>
+</div>
+
+<div id="tab-apur" style="display:none">
+<div class="apx">
+  <div class="card">
+    <h3>Importar notas do mês</h3>
+    <div class="imp">
+      <div class="fld">
+        <label for="comp">Competência</label>
+        <input type="month" id="comp">
+        <div class="chips" id="apChips"></div>
+      </div>
+      <div>
+        <div class="drop" id="drop">
+          <strong>Arraste aqui os arquivos .zip ou .xml</strong> ou clique para escolher
+          <p>Saídas (NFC-e e NF-e) e entradas (NF-e de fornecedores). Pode importar aos poucos, ao longo do mês; notas repetidas são ignoradas.</p>
+          <input type="file" id="arq" multiple accept=".zip,.xml" style="display:none">
+        </div>
+        <div class="prog" id="prog"><div></div></div>
+        <div class="progtxt" id="progtxt"></div>
+        <div class="priv">🔒 <span>Os XMLs são lidos <b>somente neste navegador</b>: nada é enviado ao GitHub nem a outro servidor. As notas ficam salvas neste computador para você continuar a apuração depois.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="apVazio" class="card vazio">Nenhuma nota importada para esta competência ainda.</div>
+
+  <div id="apRes" style="display:none">
+    <div class="kpis">
+      <div class="kpi"><div class="l">Débitos do mês</div><div class="v" id="kDeb">—</div></div>
+      <div class="kpi"><div class="l">Créditos do mês</div><div class="v" id="kCred">—</div></div>
+      <div class="kpi"><div class="l">Ajustes (líquido)</div><div class="v" id="kAj">—</div></div>
+      <div class="kpi res"><div class="l" id="kResL">ICMS a recolher</div><div class="v" id="kRes">—</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Quadro de apuração — ICMS próprio</h3>
+        <div class="sub">Alíquota interna MA: 23%. Valores das notas conforme destacados nos XMLs; campos em branco podem ser preenchidos por você.</div>
+        <table class="quadro">
+          <tr><td class="n">001</td><td>Débito por saídas</td><td class="val" id="q1"></td></tr>
+          <tr><td class="n">002</td><td>Outros débitos</td><td class="val"><input data-k="outrosDebitos" inputmode="decimal"></td></tr>
+          <tr><td class="n">003</td><td>Estornos de créditos<span class="hint" id="hEst"></span></td><td class="val"><input data-k="estornos" inputmode="decimal"></td></tr>
+          <tr class="tot"><td class="n">004</td><td>Total de débitos</td><td class="val" id="q4"></td></tr>
+          <tr><td class="n">005</td><td>Crédito por entradas</td><td class="val" id="q5"></td></tr>
+          <tr><td class="n">006</td><td>Outros créditos</td><td class="val"><input data-k="outrosCreditos" inputmode="decimal"></td></tr>
+          <tr><td class="n">007</td><td>Antecipação parcial paga<span class="hint" id="hAnt"></span></td><td class="val"><input data-k="antecipacaoPaga" inputmode="decimal"></td></tr>
+          <tr><td class="n">008</td><td>Saldo credor do mês anterior<span class="hint" id="hSal"></span></td><td class="val"><input data-k="saldoAnterior" inputmode="decimal"></td></tr>
+          <tr class="tot"><td class="n">009</td><td>Total de créditos</td><td class="val" id="q9"></td></tr>
+          <tr class="fin"><td class="n">010</td><td id="q10l">ICMS a recolher</td><td class="val" id="q10"></td></tr>
+        </table>
+        <div class="opts">
+          <label><input type="checkbox" data-k="excluirCredST"> <span>Não aproveitar crédito de produtos que o mapeamento classifica como ST <span class="hint" id="hST"></span></span></label>
+          <label><input type="checkbox" data-k="incluirForaMes"> <span>Incluir entradas emitidas em meses anteriores (nota chegou neste mês) <span class="hint" id="hFora"></span></span></label>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button class="btn-exp" onclick="apSalvar()">💾 Fechar mês e levar saldo</button>
+          <button class="btn-sec" onclick="apExportar()">⬇ Exportar memória (CSV)</button>
+          <button class="btn-sec" onclick="apLimpar()">🗑 Remover notas desta competência</button>
+          <span class="salvo" id="apSalvo"></span>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3>Débitos por CFOP / CST</h3>
+          <table class="mini" id="tDeb"></table>
+        </div>
+        <div class="card">
+          <h3>Créditos por CFOP / CST</h3>
+          <table class="mini" id="tCred"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Pontos de atenção</h3>
+      <div class="sub">Conferências automáticas. Revise antes de fechar a apuração.</div>
+      <div id="alertas"></div>
+    </div>
+    <div class="sub" style="text-align:center">Prévia gerencial. Não substitui a escrituração oficial (EFD ICMS/IPI), que continua com a contabilidade.</div>
+  </div>
+</div>
+</div>
 
 <footer><strong>Farma Center</strong> · CNPJ 10.862.380/0001-27 · Sistema de Mapeamento Fiscal · Uso interno restrito</footer>
 
@@ -211,22 +363,23 @@ footer strong{color:var(--red);font-weight:600;}
 var URL_JSON = "https://raw.githubusercontent.com/judsondev-dev/mapeamento-produtos/refs/heads/main/produtos.json";
 
 var CFOP_INFO = {
-  "5102": { desc:"Compra p/ comercialização",         credito:true,  debito:true,  tipo:"credito"   },
-  "6102": { desc:"Compra p/ comercialização (interestad.)", credito:true, debito:true, tipo:"credito" },
-  "5403": { desc:"ST — sem crédito nem débito",        credito:false, debito:false, tipo:"nenhum"    },
-  "6403": { desc:"ST interestad. — sem incidência",    credito:false, debito:false, tipo:"nenhum"    },
-  "5405": { desc:"ST já recolhida anteriormente",      credito:false, debito:false, tipo:"nenhum"    },
-  "6404": { desc:"ST interestad. já recolhida",        credito:false, debito:false, tipo:"nenhum"    },
-  "5910": { desc:"Remessa em bonificação",             credito:false, debito:false, tipo:"nenhum"    },
-  "5927": { desc:"Retorno de bonificação",             credito:false, debito:false, tipo:"nenhum"    },
-  "5656": { desc:"Combustível / lubrificantes",        credito:false, debito:false, tipo:"verificar" },
-  "5949": { desc:"Outras saídas de mercadoria",        credito:false, debito:false, tipo:"verificar" }
+  "5102": { desc:"Venda de mercadoria de terceiros (tributada)",   credito:true,  debito:true,  tipo:"credito"   },
+  "6102": { desc:"Venda interestadual de merc. de terceiros",      credito:true,  debito:true,  tipo:"credito"   },
+  "5405": { desc:"Venda com ST já retida (substituído)",           credito:false, debito:false, tipo:"nenhum"    },
+  "6404": { desc:"Venda interestad. com ST já retida",             credito:false, debito:false, tipo:"nenhum"    },
+  "5403": { desc:"Venda com ST — contribuinte substituto",         credito:false, debito:false, tipo:"verificar" },
+  "6403": { desc:"Venda interestad. com ST — substituto",          credito:false, debito:false, tipo:"verificar" },
+  "5910": { desc:"Remessa em bonificação / brinde",                credito:false, debito:false, tipo:"verificar" },
+  "5927": { desc:"Baixa de estoque: perda, roubo ou deterioração", credito:false, debito:false, tipo:"verificar" },
+  "5202": { desc:"Devolução de compra",                            credito:false, debito:false, tipo:"verificar" },
+  "5656": { desc:"Venda de combustível / lubrificante",            credito:false, debito:false, tipo:"verificar" },
+  "5949": { desc:"Outra saída não especificada",                   credito:false, debito:false, tipo:"verificar" }
 };
 
 var CFOP_C = {
   "5102":"c5102","6102":"c6102","5403":"c5403","6403":"c6403",
   "5405":"c5405","6404":"c6404","5910":"c5910","5927":"c5927",
-  "5656":"c5656","5949":"c5949"
+  "5656":"c5656","5949":"c5949","5202":"c5910"
 };
 
 var DATA=[], filt=[], sk="nome", sd=1, pg=1, PP=30;
@@ -273,6 +426,7 @@ function load() {
       var now = new Date().toLocaleString("pt-BR");
       setst("ok","Atualizado às "+now);
       filter();
+      if(window.apRecalc)apRecalc();
     })
     .catch(function(e){
       setst("error","Erro ao carregar");
@@ -410,10 +564,23 @@ function exportCSV(){
   a.click();
 }
 
+function aba(t){
+  document.getElementById("tab-map").style.display=t==="map"?"":"none";
+  document.getElementById("tab-apur").style.display=t==="apur"?"":"none";
+  var b=document.querySelectorAll(".tab");
+  for(var i=0;i<b.length;i++)b[i].classList.toggle("on",b[i].getAttribute("data-tab")===t);
+  if(history.replaceState)history.replaceState(null,"",t==="apur"?"#apuracao":location.pathname+location.search);
+  if(t==="apur"&&window.apAbrir)apAbrir();
+}
+
 document.getElementById("q").addEventListener("input",filter);
 document.getElementById("fc").addEventListener("change",filter);
 document.getElementById("fi").addEventListener("change",filter);
 load();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="apuracao.js"></script>
+<script src="apuracao-ui.js"></script>
+<script>if(location.hash==="#apuracao")aba("apur");</script>
 </body>
 </html>
